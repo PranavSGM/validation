@@ -1,0 +1,12 @@
+
+Ques - Data Validation :-
+
+1) read a .csv file, which already has n records over the following 7 Columns.
+2) columns of file and their validation
+ 1)First name             -   Atleast one Char or String
+ 2)Last name              -   Atleast one char or String
+ 3)UserID                 -   Valid Int, Size >0
+ 4)Salary                 -   Valid Double, Size >0
+ 5)Designation            -   one of (A, SA, M, D, P)
+ 6)EmailID                -   abc@def.com
+ 7)TimeStamp              -   yyyy-mm-dd hh:mm:ss.S
