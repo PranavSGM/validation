@@ -1,4 +1,4 @@
-package com.sapient.scala.validation
+package com.sapient.scala.project_validation
 
 object validation
 {
@@ -10,9 +10,9 @@ object validation
     if (x.nonEmpty) {
       fn match {
         case pattern(_*) => s"$fn"
-        case _ => "***** Invalid !"
+        case _ => "--- Invalid ! ---"
       }
-    } else "***** Invalid !"
+    } else "--- Invalid: Char-missing ! ---"
   }
     //Last Name
     def lname(ln:String):String=
@@ -25,9 +25,9 @@ object validation
         ln match
         {
           case pattern(_*) =>  s"$ln"
-          case _ => "***** Invalid !"
+          case _ => "--- Invalid ! ---"
         }
-      } else "***** Invalid !"
+      } else "--- Invalid: Char-missing ! ---"
     }
 
   //User-ID
@@ -37,7 +37,7 @@ object validation
     uid match
     {
       case pattern(_*) => s"$uid"
-      case _ => "***** Invalid !"
+      case _ => "--- Invalid ! ---"
     }
   }
 
@@ -45,11 +45,10 @@ object validation
   def salary(sal:String):String=
   {
     val pattern ="""\b[0-9]{1,}\b""".r
-    var ans:String=""
     sal match
     {
       case pattern(_*) => s"$sal"
-      case _ => "***** Invalid !"
+      case _ => "--- Invalid ! ---"
     }
   }
 
@@ -59,7 +58,7 @@ object validation
     des match
     {
       case "A"|"a"|"S"|"s"|"D"|"d"|"m"|"M"|"P"|"p" =>s"$des"
-      case _ =>"***** Invalid !"
+      case _ =>"--- Invalid ! ---"
     }
   }
 
@@ -70,7 +69,7 @@ object validation
     email match
     {
       case pattern(_*) =>s"$email"
-      case _ =>"Invalid !"
+      case _ =>"--- Invalid ! ---"
     }
   }
 
@@ -82,37 +81,31 @@ object validation
 
     val formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSSSS")
     val test = Try[Date](formatter.parse(time)).toString
-    test matches "Success.*" match {
-      case true =>"valid !"
-      case false =>"Invalid !"
-    }
+    if(test matches "Success.*") s"$test"
+    else "--- Invalid ! ---"
   }
+
   def main(args: Array[String]): Unit =
   {
-    println("FirstName | LastName | UserID | Salary | Designation | EmailID | TimeStamp")
-      val bufferedSource = io.Source.fromFile("c:/Scala_Project/tmpfile/data1.csv")
+    import scala.io
+    println("***** File Schema *****\nFirstName\nLastName" +
+                                    "\nUserID\nSalary\nDesignation\nEmailID\nTimeStamp")
+      val bufferedSource = io.Source.fromFile("C:/IntelliJ_IDEA_Projects/src/com/sapient/scala/project_validation/data1.csv")
       for (line <- bufferedSource.getLines)
       {
-        val cols = line.split(",").map(_.trim)
-        // do whatever you want with the columns here
-        println(s"\nInput file values => \n${cols(0)}\n${cols(1)}" +
-          s"\n${cols(2)}\n${cols(3)}\n${cols(4)}\n${cols(5)}\n${cols(6)}")
+        val Array(fn, ln, uid, sal, des, email, time)=line.split(",").map(_.trim)
+        println(s"\n***** File Entry ${line(_)}***** \n$fn\n$ln" +
+                s"\n$uid\n$sal\n$des\n$email\n$time")
+        val fnv = fname(fn)
+        val lnv = lname(ln)
+        val uidv= userid(uid)
+        val salv = salary(sal)
+        val desigv = desig(des)
+        val emailv= emailfunc(email)
+        val timev = timefunc(time)
+        println(s"\n***** Validated Data ***** \n$fnv \n$lnv " +
+                s"\n$uidv \n$salv \n$desigv \n$emailv \n$timev")
       }
       bufferedSource.close
-
-    val bufferedsource1 = io.Source.fromFile("c:/Scala_Project/tmpfile/data1.csv")
-    for(line <- bufferedsource1.getLines)
-    {
-      val Array(fn, ln, uid, sal, des, email, time)=line.split(",").map(_.trim)
-      val fnv = fname(fn)
-      val lnv = lname(ln)
-      val uidv= userid(uid)
-      val salv = salary(sal)
-      val desigv = desig(des)
-      val emailv= emailfunc(email)
-      val timev = timefunc(time)
-      println(s"\nvalidation = \n$fnv \n$lnv \n$uidv \n$sal \n$desigv \n$emailv \n$timev")
-    }
-    bufferedsource1.close
   }
 }
