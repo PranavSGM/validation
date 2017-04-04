@@ -1,17 +1,21 @@
 
-
-import java.text.SimpleDateFormat
-import java.util.Date
-
-import scala.util.Try
-
-val date1 = "2022-10-15 10:55:01.000000"
-val formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSS")
-
-val test = Try[Date](formatter.parse(date1)).toString
-
-
-test matches "Success.*" match {
-  case true =>  "valid !"
-  case false => "Invalid !"
+class A{
+  def hi ="hello from a"
+  override def toString = getClass.getName
 }
+class B extends A
+class C extends B {
+ override def hi = "hi C=>" + super.hi
+}
+val hia= new A()
+val hib=new B().hi
+val hic=new C().hi
+
+val a:A=new A
+val b =new B
+val ab:A =new B
+
+val la = List(1,2,3)
+val le=List()
+
+
